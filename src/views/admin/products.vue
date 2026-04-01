@@ -390,7 +390,7 @@ const abrirAjusteManual = (variante) => {
                       >
                       <ImageIcon v-else class="w-full h-full p-3 text-slate-300 dark:text-slate-600" />
                     </div>
-                    
+                       </div>
                     <div>
                       <p class="text-sm font-bold text-slate-700 dark:text-slate-200 leading-none mb-1">{{ product.name }}</p>
                       <p class="text-[10px] text-slate-400 dark:text-slate-500 line-clamp-1 max-w-[200px]">{{ product.description }}</p>
@@ -564,7 +564,7 @@ const abrirAjusteManual = (variante) => {
     </div>
   </div>
 </div>
-      </div>
+   
 
         <div class="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
           <div class="flex justify-between items-center px-1">
