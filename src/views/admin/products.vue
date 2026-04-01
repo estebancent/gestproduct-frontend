@@ -326,6 +326,12 @@ const abrirAjusteManual = (variante) => {
     }
   });
 };
+  const previewImage = computed(() => {
+  if (form.value.image && form.value.image instanceof File) {
+    return URL.createObjectURL(form.value.image);
+  }
+  return null;
+});
 </script>
 
 <template>
@@ -529,10 +535,12 @@ const abrirAjusteManual = (variante) => {
             <input type="file" @change="handleImage" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10">
             
             <template v-if="form.image">
-              <img :src="URL.createObjectURL(form.image)" class="w-full h-full object-cover">
-              <button @click.stop="form.image = null" class="absolute top-2 right-2 z-30 bg-rose-500 text-white p-1.5 rounded-full shadow-lg"><X class="w-3 h-3" /></button>
-            </template>
-            <img v-else-if="isEditing && form.old_image_path" :src="`http://localhost:8000/storage/${form.old_image_path}`" class="w-full h-full object-cover opacity-80">
+            <img :src="previewImage" class="w-full h-full object-cover">
+            <button @click.stop="form.image = null" class="absolute top-2 right-2 z-30 bg-rose-500 text-white p-1.5 rounded-full shadow-lg">
+              <X class="w-3 h-3" />
+            </button>
+          </template>
+            <img v-else-if="isEditing && form.old_image_path" :src="`https://gestproduct-backend-production.up.railway.app/storage/${form.old_image_path}`" class="w-full h-full object-cover opacity-80">
             <div v-else class="flex flex-col items-center gap-2 text-slate-300"><ImageIcon class="w-10 h-10" /><span class="text-[10px] font-bold uppercase">Subir Imagen</span></div>
           </div>
         </div>
