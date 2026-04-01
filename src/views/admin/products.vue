@@ -97,6 +97,7 @@ const abrirModalCrear = () => {
   }
   mostrarForm.value = true
 }
+  
 
 const abrirModalEditar = (product) => {
   isEditing.value = true;
@@ -112,7 +113,7 @@ const abrirModalEditar = (product) => {
     profit_margin: product.profit_margin,
     image_path: null, // Siempre null al inicio porque el input file empieza vacío
     image: null, // El archivo nuevo que el usuario quiera subir (si lo hace)
-    old_image_path: product.image_path, // <--- GUARDAMOS LA RUTA ACTUAL AQUÍ
+    old_image_path: product.image_path, // <--- GUARDAMOS LA RUTA DE LA DB AQUÍ
     
     variants: product.variants.map(v => ({
       size: v.size,
@@ -329,11 +330,9 @@ const abrirAjusteManual = (variante) => {
     }
   });
 };
+
   const previewImage = computed(() => {
-  if (form.value.image && form.value.image instanceof File) {
-    return URL.createObjectURL(form.value.image);
-  }
-  return null;
+  return form.value.image ? URL.createObjectURL(form.value.image) : null;
 });
 </script>
 
@@ -383,10 +382,15 @@ const abrirAjusteManual = (variante) => {
                 </td>
                 <td class="px-6 py-4">
                   <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
-                      <img v-if="product.image_path" :src="`https://gestproduct-backend-production.up.railway.app/storage/${form.old_image_path}`" class="object-cover w-full h-full">
+                   <div class="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
+                      <img 
+                        v-if="product.image_path" 
+                        :src="`https://gestproduct-backend-production.up.railway.app/storage/${product.image_path}`" 
+                        class="object-cover w-full h-full"
+                      >
                       <ImageIcon v-else class="w-full h-full p-3 text-slate-300 dark:text-slate-600" />
                     </div>
+                    
                     <div>
                       <p class="text-sm font-bold text-slate-700 dark:text-slate-200 leading-none mb-1">{{ product.name }}</p>
                       <p class="text-[10px] text-slate-400 dark:text-slate-500 line-clamp-1 max-w-[200px]">{{ product.description }}</p>
@@ -531,22 +535,35 @@ const abrirAjusteManual = (variante) => {
         </div>
       </div>
 
-      <div class="space-y-6">
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 shadow-sm">
-          <label class="input-label mb-3 block">Imagen del producto</label>
-          <div class="relative w-full aspect-square bg-slate-50 dark:bg-slate-800/50 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center overflow-hidden group">
-            <input type="file" @change="handleImage" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10">
-            
-            <template v-if="form.image">
-            <img :src="previewImage" class="w-full h-full object-cover">
-            <button @click.stop="form.image = null" class="absolute top-2 right-2 z-30 bg-rose-500 text-white p-1.5 rounded-full shadow-lg">
-              <X class="w-3 h-3" />
-            </button>
-          </template>
-            <img v-else-if="isEditing && form.old_image_path" :src="`https://gestproduct-backend-production.up.railway.app/storage/${form.old_image_path}`" class="w-full h-full object-cover opacity-80">
-            <div v-else class="flex flex-col items-center gap-2 text-slate-300"><ImageIcon class="w-10 h-10" /><span class="text-[10px] font-bold uppercase">Subir Imagen</span></div>
-          </div>
-        </div>
+     <div class="space-y-6">
+  <div class="bg-white dark:bg-slate-900 p-6 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 shadow-sm">
+    <label class="input-label mb-3 block">Imagen del producto</label>
+    
+    <div class="relative w-full aspect-square bg-slate-50 dark:bg-slate-800/50 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center overflow-hidden group">
+      
+      <input type="file" @change="handleImage" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10">
+      
+      <template v-if="form.image">
+        <img :src="previewImage" class="w-full h-full object-cover">
+        <button @click.stop="form.image = null" class="absolute top-2 right-2 z-30 bg-rose-500 text-white p-1.5 rounded-full shadow-lg">
+          <X class="w-3 h-3" />
+        </button>
+      </template>
+      
+      <img 
+        v-else-if="isEditing && form.old_image_path" 
+        :src="`https://gestproduct-backend-production.up.railway.app/storage/${form.old_image_path}`" 
+        class="w-full h-full object-cover opacity-80"
+      >
+      
+      <div v-else class="flex flex-col items-center gap-2 text-slate-300">
+        <ImageIcon class="w-10 h-10" />
+        <span class="text-[10px] font-bold uppercase">Subir Imagen</span>
+      </div>
+
+    </div>
+  </div>
+</div>
 
         <div class="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
           <div class="flex justify-between items-center px-1">
