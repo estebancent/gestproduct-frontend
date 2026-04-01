@@ -558,12 +558,13 @@ const abrirAjusteManual = (variante) => {
       
       <div v-else class="flex flex-col items-center gap-2 text-slate-300">
         <ImageIcon class="w-10 h-10" />
-        <span class="text-[10px] font-bold uppercase">Subir Imagen</span>
+        <span class="text-[10px] font-bold uppercase">Subir Imagen</span> 
       </div>
 
     </div>
   </div>
 </div>
+      </div>
 
         <div class="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
           <div class="flex justify-between items-center px-1">
