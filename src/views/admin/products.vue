@@ -28,8 +28,11 @@ const form = ref({
   purchase_price: 0,
   sale_price: 0,
   profit_margin: 0,
-  image_path: null, // Ruta que viene de la DB (String)
-  image: null,
+  
+  // 📸 MANEJO DE IMÁGENES:
+  image: null,           // Aquí guardaremos el ARCHIVO (File) cuando selecciones uno nuevo.
+  old_image_path: null,  // Aquí guardaremos la RUTA (String) que viene de la DB al editar.
+
   variants: [{ size: '', color: '', sku: '', stock: 0 }]
 })
 
