@@ -380,23 +380,21 @@ const abrirAjusteManual = (variante) => {
                   <component :is="expandedRows.includes(product.id) ? ChevronDown : ChevronRight" 
                              class="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors" />
                 </td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                   <div class="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
-                      <img 
-                        v-if="product.image_path" 
-                        :src="`https://gestproduct-backend-production.up.railway.app/storage/${product.image_path}`" 
-                        class="object-cover w-full h-full"
-                      >
-                      <ImageIcon v-else class="w-full h-full p-3 text-slate-300 dark:text-slate-600" />
-                    </div>
-                       </div>
-                    <div>
-                      <p class="text-sm font-bold text-slate-700 dark:text-slate-200 leading-none mb-1">{{ product.name }}</p>
-                      <p class="text-[10px] text-slate-400 dark:text-slate-500 line-clamp-1 max-w-[200px]">{{ product.description }}</p>
-                    </div>
+               <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
+                    <img 
+                      v-if="product.image_path" 
+                      :src="`https://gestproduct-backend-production.up.railway.app/storage/${product.image_path}`" 
+                      class="object-cover w-full h-full"
+                    >
+                    <ImageIcon v-else class="w-full h-full p-3 text-slate-300 dark:text-slate-600" />
+                  </div> <div>
+                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200 leading-none mb-1">{{ product.name }}</p>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 line-clamp-1 max-w-[200px]">{{ product.description }}</p>
                   </div>
-                </td>
+                </div>
+              </td>
                 <td class="px-6 py-4 hidden lg:table-cell">
                   <div class="flex flex-col">
                     <span class="text-xs font-bold text-slate-600 dark:text-slate-400">{{ product.category?.name }}</span>
