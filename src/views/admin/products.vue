@@ -381,7 +381,7 @@ const abrirAjusteManual = (variante) => {
                 <td class="px-6 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
-                      <img v-if="product.image_path" :src="`http://localhost:8000/storage/${product.image_path}`" class="object-cover w-full h-full">
+                      <img v-if="product.image_path" :src="`https://gestproduct-backend-production.up.railway.app/storage/${form.old_image_path}`" class="object-cover w-full h-full">
                       <ImageIcon v-else class="w-full h-full p-3 text-slate-300 dark:text-slate-600" />
                     </div>
                     <div>
