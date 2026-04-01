@@ -535,36 +535,29 @@ const abrirAjusteManual = (variante) => {
         </div>
       </div>
 
-     <div class="space-y-6">
-  <div class="bg-white dark:bg-slate-900 p-6 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 shadow-sm">
-    <label class="input-label mb-3 block">Imagen del producto</label>
-    
-    <div class="relative w-full aspect-square bg-slate-50 dark:bg-slate-800/50 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center overflow-hidden group">
-      
-      <input type="file" @change="handleImage" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10">
-      
-      <template v-if="form.image">
-        <img :src="previewImage" class="w-full h-full object-cover">
-        <button @click.stop="form.image = null" class="absolute top-2 right-2 z-30 bg-rose-500 text-white p-1.5 rounded-full shadow-lg">
-          <X class="w-3 h-3" />
-        </button>
-      </template>
-      
-      <img 
-        v-else-if="isEditing && form.old_image_path" 
-        :src="`https://gestproduct-backend-production.up.railway.app/storage/${form.old_image_path}`" 
-        class="w-full h-full object-cover opacity-80"
-      >
-      
-      <div v-else class="flex flex-col items-center gap-2 text-slate-300">
-        <ImageIcon class="w-10 h-10" />
-        <span class="text-[10px] font-bold uppercase">Subir Imagen</span> 
-      </div>
-
-    </div>
-  </div>
-</div>
-   
+    <div class="space-y-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 shadow-sm">
+          <label class="input-label mb-3 block">Imagen del producto</label>
+          <div class="relative w-full aspect-square bg-slate-50 dark:bg-slate-800/50 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center overflow-hidden group">
+            <input type="file" @change="handleImage" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10">
+            
+            <template v-if="form.image">
+              <img :src="previewImage" class="w-full h-full object-cover">
+              <button @click.stop="form.image = null" class="absolute top-2 right-2 z-30 bg-rose-500 text-white p-1.5 rounded-full shadow-lg">
+                <X class="w-3 h-3" />
+              </button>
+            </template>
+            
+            <img v-else-if="isEditing && form.old_image_path" 
+                 :src="`https://gestproduct-backend-production.up.railway.app/storage/${form.old_image_path}`" 
+                 class="w-full h-full object-cover opacity-80">
+            
+            <div v-else class="flex flex-col items-center gap-2 text-slate-300">
+              <ImageIcon class="w-10 h-10" />
+              <span class="text-[10px] font-bold uppercase">Subir Imagen</span> 
+            </div>
+          </div>
+        </div>
 
         <div class="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
           <div class="flex justify-between items-center px-1">
@@ -585,26 +578,15 @@ const abrirAjusteManual = (variante) => {
                 <div>
                     <label class="input-label">Stock Actual</label>
                     <div class="relative group">
-                    <input 
-                        v-model="v.stock" 
-                        :readonly="isEditing" 
-                        type="number" 
-                        :class="[
-                        'custom-input !py-1.5 !text-xs transition-all',
-                        isEditing ? 'bg-slate-100 dark:bg-slate-800/80 cursor-not-allowed border-dashed' : ''
-                        ]"
-                    >
-                    <button 
-                        v-if="isEditing"
-                        @click.stop="abrirAjusteManual(v)"
-                        class="absolute right-2 top-1.5 p-1 bg-white dark:bg-slate-700 shadow-sm border border-slate-200 dark:border-slate-600 rounded-lg text-indigo-600 hover:scale-110 transition-transform"
-                        title="Ajustar stock por pérdida o devolución"
-                    >
+                    <input v-model="v.stock" :readonly="isEditing" type="number" 
+                           :class="['custom-input !py-1.5 !text-xs transition-all', isEditing ? 'bg-slate-100 dark:bg-slate-800/80 cursor-not-allowed border-dashed' : '']">
+                    <button v-if="isEditing" @click.stop="abrirAjusteManual(v)" 
+                            class="absolute right-2 top-1.5 p-1 bg-white dark:bg-slate-700 shadow-sm border border-slate-200 dark:border-slate-600 rounded-lg text-indigo-600 hover:scale-110 transition-transform">
                         <Settings2 class="w-3.5 h-3.5" />
                     </button>
                     </div>
                 </div>
-                </div>
+              </div>
 
               <div>
                 <label class="input-label">Color: <span class="text-indigo-500">{{ coloresEstandar.find(c => c.hex === v.color)?.nombre || 'N/A' }}</span></label>
@@ -631,10 +613,7 @@ const abrirAjusteManual = (variante) => {
           <span v-if="!sending">{{ isEditing ? 'ACTUALIZAR PRODUCTO' : 'GUARDAR PRODUCTO' }}</span>
           <Loader2 v-else class="w-6 h-6 animate-spin mx-auto" />
         </button>
-      </div>
-
-    </div> </div>
-</template>
+      </div> </div> </div> </template>
 
 <style scoped>
 .input-label { 
