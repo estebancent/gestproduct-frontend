@@ -331,8 +331,11 @@ const abrirAjusteManual = (variante) => {
   });
 };
 
-  const previewImage = computed(() => {
-  return form.value.image ? URL.createObjectURL(form.value.image) : null;
+const previewImage = computed(() => {
+  if (form.value.image && form.value.image instanceof File) {
+    return URL.createObjectURL(form.value.image);
+  }
+  return null;
 });
 </script>
 
