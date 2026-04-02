@@ -337,6 +337,8 @@ const previewImage = computed(() => {
   }
   return null;
 });
+// Definimos la base del storage para usarla en el template
+const storageBase = import.meta.env.VITE_STORAGE_URL || 'http://127.0.0.1:8000/storage';
 </script>
 
 <template>
@@ -386,10 +388,10 @@ const previewImage = computed(() => {
                <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
                   <div class="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
-                    <img 
-                      v-if="product.image_path" 
-                      :src="`https://gestproduct-backend-production.up.railway.app/storage/${product.image_path}`" 
-                      class="object-cover w-full h-full"
+                   <img 
+                    v-if="product.image_path" 
+                    :src="`${storageBase}/${product.image_path}`" 
+                    class="object-cover w-full h-full"
                     >
                     <ImageIcon v-else class="w-full h-full p-3 text-slate-300 dark:text-slate-600" />
                   </div> <div>
@@ -550,8 +552,8 @@ const previewImage = computed(() => {
             </template>
             
             <img v-else-if="isEditing && form.old_image_path" 
-                 :src="`https://gestproduct-backend-production.up.railway.app/storage/${form.old_image_path}`" 
-                 class="w-full h-full object-cover opacity-80">
+                :src="`${storageBase}/${form.old_image_path}`" 
+                class="w-full h-full object-cover opacity-80">
             
             <div v-else class="flex flex-col items-center gap-2 text-slate-300">
               <ImageIcon class="w-10 h-10" />
