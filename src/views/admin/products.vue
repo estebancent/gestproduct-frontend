@@ -240,46 +240,33 @@ const generarSKU = (productoNombre, brandId, variante) => {
   return `${prefijoMarca}-${prefijoProducto}-${talle}-${colorId}`
 }
 
-// Watcher inteligente
+// BORRA los dos watch anteriores de SKU y pega este solo:
+
 watch(
-  () => [form.value.name, form.value.brand_id, form.value.variants], 
-  () => {
-    if (!form.value.name) return
+  () => [form.value.name, form.value.brand_id, form.value.variants],
+  ([newName, newBrandId, newVariants]) => {
+    // Si no hay nombre o marca, no hacemos nada para evitar cálculos innecesarios
+    if (!newName || !newBrandId) return;
 
-    form.value.variants.forEach(v => {
-      // Genera el SKU solo si está vacío
-      if (!v.sku || v.sku === '') {
-        v.sku = generarSKU(form.value.name, form.value.brand_id, v)
-      }
-    })
-  }, 
-  { deep: true }
-)
-
-// Watcher único para mantener los SKUs sincronizados con los datos
-watch(
-  [
-    () => form.value.name, 
-    () => form.value.brand_id, 
-    () => form.value.variants
-  ], 
-  (newValues, oldValues) => {
-    const [name, brandId, variants] = newValues;
-
-    form.value.variants.forEach((v) => {
-      // Solo generamos si tenemos lo mínimo: Nombre, Marca, Talle y Color
-      if (name && brandId && v.size && v.color) {
-        const brand = brandStore.brands.find(b => b.id === brandId);
-        const brandName = brand ? brand.name.substring(0, 2).toUpperCase() : 'XX';
-        const productName = name.substring(0, 3).toUpperCase();
+    newVariants.forEach((v) => {
+      // Solo generamos el SKU si tiene Talle y Color seleccionados
+      if (v.size && v.color) {
+        const brand = brandStore.brands.find(b => String(b.id) === String(newBrandId));
+        const brandName = brand ? brand.name.substring(0, 2).toUpperCase() : 'GN';
+        const productName = newName.trim().substring(0, 3).toUpperCase();
+        
+        // Buscamos el nombre del color en tu array de coloresEstandar
         const colorObj = coloresEstandar.find(c => c.hex === v.color);
         const colorName = colorObj ? colorObj.nombre.substring(0, 2).toUpperCase() : '00';
-        const sizeName = v.size.toString().toUpperCase();
+        const sizeName = v.size.toString().toUpperCase().replace(/\s+/g, '');
 
-        // Formato: MAR-NAM-COL-SIZ (Ej: NI-TSH-BL-XL)
-        v.sku = `${brandName}-${productName}-${colorName}-${sizeName}`;
-      } else {
-        v.sku = ''; // Limpiamos si falta información esencial
+        const nuevoSku = `${brandName}-${productName}-${colorName}-${sizeName}`;
+
+        // IMPORTANTE: Solo asignar si el SKU es diferente al actual
+        // Esto rompe el bucle infinito
+        if (v.sku !== nuevoSku) {
+          v.sku = nuevoSku;
+        }
       }
     });
   },
